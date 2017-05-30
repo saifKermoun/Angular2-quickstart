@@ -1,0 +1,22 @@
+.pull-right{
+  margin-left: 5px;
+}
+
+form-control{
+  display: inline-block;
+  width: 50%;
+}
+
+.builder{
+  background-color: #FFF;
+  border-right: 1px solid #DDD;
+
+}
+
+.btn{
+  border-radius: 0 !important;
+}
+
+.btn-primary{
+  background-color: #117ab7 !important;
+}
