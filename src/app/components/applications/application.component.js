@@ -86,11 +86,10 @@ var ApplicationComponent = (function () {
         };
         this.submitted = true;
         if (isValid) {
-            this.userService.addUser(newUser)
+            this.appService.addApplication(newApplication)
                 .subscribe(function (apps) {
                 _this.appis.push(apps);
             });
-            this.appis.push(appis);
             this.showAddAppi = false;
         }
     };

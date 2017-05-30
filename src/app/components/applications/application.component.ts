@@ -103,12 +103,11 @@ export class ApplicationComponent {
 
         if(isValid)
         {
-          this.userService.addUser(newUser)
+          this.appService.addApplication(newApplication)
             .subscribe(apps => {
               this.appis.push(apps);
-
             });
-            this.appis.push(appis);
+
             this.showAddAppi = false;
         }
     }
