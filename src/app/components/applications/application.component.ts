@@ -1,18 +1,19 @@
 import { Component  } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { FilterPipe } from './filter.pipe'
+import { FilterPipe } from './filter.pipe';
+import { ApplicationService } from '../../services/application/application.service';
 
 @Component({
-    moduleId: module.id,
-    selector: 'mes-apps',
-    templateUrl: `application.component.html`,
-    styleUrls: ['application.component.css'],
+  moduleId: module.id,
+  selector: 'mes-apps',
+  templateUrl: `application.component.html`,
+  styleUrls: ['application.component.css'],
+  providers: [ApplicationService]
 })
 
 
 
 export class ApplicationComponent  {
-
     public myForm: FormGroup;
     public searchAppForm: FormGroup;
     title = 'Mes Applications';
@@ -24,6 +25,7 @@ export class ApplicationComponent  {
     titleForm:string;
     updateShow: boolean;
     idHide:boolean;
+    appService: ApplicationService;
 
     constructor(public fb: FormBuilder){
         this.showAddAppi = false;

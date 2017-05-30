@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
+var application_service_1 = require("../../services/application/application.service");
 var ApplicationComponent = (function () {
     function ApplicationComponent(fb) {
         this.fb = fb;
@@ -150,6 +151,7 @@ ApplicationComponent = __decorate([
         selector: 'mes-apps',
         templateUrl: "application.component.html",
         styleUrls: ['application.component.css'],
+        providers: [application_service_1.ApplicationService]
     }),
     __metadata("design:paramtypes", [forms_1.FormBuilder])
 ], ApplicationComponent);
