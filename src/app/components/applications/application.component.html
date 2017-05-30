@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-md-12">
+            <h1>{{ title }} <button (click)="toggleAddApp(true)" class="btn btn-small btn-info pull-right">{{showAddAppi ? "Annuler" : "Ajouter une application"}}</button>
+              <input type="text" class="form-control" [(ngModel)]="search" name="search" placeholder="Search application" >
+            </h1>
+            <hr>
+        </div>
+
+
+        <div class="col col-md-12 sm-12" *ngIf="showAddAppi" >
+            <h1>{{titleForm}}</h1>
+            <hr>
+
+            <form  [formGroup]="myForm">
+                <div class="form-group col-md-4">
+                  <input type="number" class="form-control" *ngIf="idHide" formControlName="app_id">
+                    <input  type="text" class="form-control" formControlName="app_name" required placeholder="Name of application">
+                    <small [hidden]="myForm.controls.app_name.valid || (myForm.controls.app_name.pristine && !submitted)" class="text-danger">
+                        Name is required (minimum 5 characters).
+                    </small>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" formControlName="app_desc" required placeholder="Description of application">
+                    <small [hidden]="myForm.controls.app_desc.valid || (myForm.controls.app_desc.pristine && !submitted)" class="text-danger">
+                        Description required
+                    </small>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" formControlName="app_src" required placeholder="Folder of application">
+                    <small [hidden]="myForm.controls.app_src.valid || (myForm.controls.app_src.pristine && !submitted)" class="text-danger">
+                        Source required
+                    </small>
+                </div>
+
+                <div class="form-group">
+                  <button type="button" (click)="addApi(myForm.value, myForm.valid)" *ngIf="updateShow" class="btn btn-primary">Ajouter</button> <button *ngIf="updateShow" (click)="toggleAddApp(true)" type="submit" class="btn btn-alert">Cancel</button>
+                  <button type="button" (click)="editApp(myForm.value, myForm.valid)" *ngIf="!updateShow" class="btn btn-success">Update</button> <button *ngIf="!updateShow" (click)="toggleAddApp(false)" type="submit" class="btn btn-alert">Cancel</button>
+                </div>
+            </form>
+            <hr>
+        </div>
+
+
+        <div class="col col-md-4 col-sm-6" *ngFor="let apli of appis | filter:search; let i = index ">
+            <h1><a href="{{apli.app_src}}">#{{apli.app_id}} - {{apli.app_name}}</a> <button (click)="deleteApi(i)" class="btn btn-small btn-danger pull-right">delete</button> <button (click)="toggleAddApp(false,i)" *ngIf="updateShow" class="btn btn-small btn-info pull-right">edit</button></h1>
+            <hr>
+            <h4>{{apli.app_desc}}</h4>
+        </div>
+
+    </div>
+</div>
