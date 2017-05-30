@@ -14,20 +14,20 @@
 
             <form  [formGroup]="myForm">
                 <div class="form-group col-md-4">
-                  <input type="number" class="form-control" *ngIf="idHide" formControlName="app_id">
-                    <input  type="text" class="form-control" formControlName="app_name" required placeholder="Name of application">
+                  <input type="number" class="form-control" *ngIf="idHide" formControlName="id_app">
+                    <input  type="text" class="form-control" formControlName="name_app" required placeholder="Name of application">
                     <small [hidden]="myForm.controls.app_name.valid || (myForm.controls.app_name.pristine && !submitted)" class="text-danger">
                         Name is required (minimum 5 characters).
                     </small>
                 </div>
                 <div class="form-group col-md-4">
-                    <input type="text" class="form-control" formControlName="app_desc" required placeholder="Description of application">
+                    <input type="text" class="form-control" formControlName="desc_app" required placeholder="Description of application">
                     <small [hidden]="myForm.controls.app_desc.valid || (myForm.controls.app_desc.pristine && !submitted)" class="text-danger">
                         Description required
                     </small>
                 </div>
                 <div class="form-group col-md-4">
-                    <input type="text" class="form-control" formControlName="app_src" required placeholder="Folder of application">
+                    <input type="text" class="form-control" formControlName="src_app" required placeholder="Folder of application">
                     <small [hidden]="myForm.controls.app_src.valid || (myForm.controls.app_src.pristine && !submitted)" class="text-danger">
                         Source required
                     </small>
@@ -43,10 +43,12 @@
 
 
         <div class="col col-md-4 col-sm-6" *ngFor="let apli of appis | filter:search; let i = index ">
-            <h1><a href="{{apli.app_src}}">#{{apli.app_id}} - {{apli.app_name}}</a> <button (click)="deleteApi(i)" class="btn btn-small btn-danger pull-right">delete</button> <button (click)="toggleAddApp(false,i)" *ngIf="updateShow" class="btn btn-small btn-info pull-right">edit</button></h1>
+            <h1><a href="{{apli.src_app}}">#{{apli.id_app}} - {{apli.nom_app}}</a> <button (click)="deleteApi(i)" class="btn btn-small btn-danger pull-right">delete</button> <button (click)="toggleAddApp(false,i)" *ngIf="updateShow" class="btn btn-small btn-info pull-right">edit</button></h1>
             <hr>
-            <h4>{{apli.app_desc}}</h4>
+            <h4>{{apli.desc_app}}</h4>
         </div>
+
+
 
     </div>
 </div>

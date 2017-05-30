@@ -13,11 +13,11 @@ import { ApplicationService } from '../../services/application/application.servi
 
 
 
-export class ApplicationComponent  {
+export class ApplicationComponent {
+    appis:applications[];
     public myForm: FormGroup;
     public searchAppForm: FormGroup;
     title = 'Mes Applications';
-    appis:applications[];
     showAddAppi:boolean;
     public submitted: boolean;
     public events: any[] = [];
@@ -25,46 +25,26 @@ export class ApplicationComponent  {
     titleForm:string;
     updateShow: boolean;
     idHide:boolean;
-    appService: ApplicationService;
 
-    constructor(public fb: FormBuilder){
-        this.showAddAppi = false;
-        this.updateShow = true;
-        this.idHide = false;
-        this.appis = [
-            {
-              app_id: 1,
-              app_name: "API 1",
-              app_desc: "Desc 1",
-              app_src: "Src 1"
-            },
-            {
-              app_id: 2,
-              app_name: "API 2",
-              app_desc: "Desc 2",
-              app_src: "Src 2"
-            },
-            {
-              app_id: 3,
-              app_name: "API 3",
-              app_desc: "Desc 3",
-              app_src: "Src 3"
-            }
-        ];
+    constructor(public fb: FormBuilder, public appService: ApplicationService){
+      this.appService.getApplications().subscribe(
+        appis => { this.appis = appis}
+      );
+      console.log(event.type)
+      this.showAddAppi = false;
+      this.updateShow = true;
+      this.idHide = false;
 
-        this.myForm = this.fb.group({
-          app_id: [''],
-          app_name: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
-          app_desc: ["", Validators.required],
-          app_src: ["", Validators.required]
+      this.myForm = this.fb.group({
+        id_app: [''],
+        name_app: ['', [<any>Validators.required, <any>Validators.minLength(5)]],
+        desc_app: ["", Validators.required],
+        src_app: ["", Validators.required]
 
-        });
+      });
       this.searchAppForm = this.fb.group({
         search: ["", Validators.required]
       });
-
-
-
         this.subcribeToFormChanges();
     }
 
@@ -76,9 +56,7 @@ export class ApplicationComponent  {
         myFormValueChanges$.subscribe(x => this.events.push({ event: 'VALUE_CHANGED', object: x }));
     }
 
-
-    toggleAddApp(choice:boolean,i: number)
-    {
+    toggleAddApp(choice:boolean,i: number){
       switch(choice){
         case true:
           if(this.showAddAppi == true){
@@ -114,74 +92,48 @@ export class ApplicationComponent  {
 
     }
 
-    addApi(appis: applications, isValid: boolean)
-    {
+    addApi(appis: applications, isValid: boolean){
+      var newApplication = {
+        nom_app: appis.nom_app,
+        desc_app: appis.desc_app,
+        src_app: appis.src_app
+      };
+
         this.submitted = true;
 
         if(isValid)
         {
+          this.userService.addUser(newUser)
+            .subscribe(apps => {
+              this.appis.push(apps);
+
+            });
             this.appis.push(appis);
             this.showAddAppi = false;
         }
-        //console.log(appis, isValid);
     }
 
-    editApp(appi: applications, isValid: boolean)
-    {
+    editApp(appi: applications, isValid: boolean){
       var id: number;
       var appis = this.appis;
-      id = appi.app_id;
+      id = appi.id_app;
       //console.log(appi);
       this.appis.forEach(function(element, index){
-        if(element.app_id == id){
+        if(element.id_app == id){
           appis[index] = appi;
         }
       });
-
-      /*for(var i = 0; i < this.appis.length; i++)
-      {
-        //console.log(i);
-        //console.log(this.appis[i].app_id);
-        console.log(this.myForm.value.app_id);
-        /!*if(this.appis[i].app_id == this.myForm.getRawValue().app_id){
-          this.appis.push(this.myForm.getRawValue());
-        }*!/
-        /!*if(users[i].id_app == id)
-        {
-          users.splice(i,1);
-        }*!/
-      }*/
-
     }
 
     deleteApi(i: number){
         var app = this.appis;
         app.splice(i,1);
     }
-
-    searchApp(appi: Object){
-
-      /*var appis = this.appis;
-
-      appis.forEach(function(element,index){
-
-        if(element.app_name == appi.search){
-          appis.push(appis[index])
-        }else{
-          appis.splice(index)
-        }
-
-
-      });*/
-
-    }
-
-
 }
 
 interface applications{
-  app_id: number,
-  app_name: string,
-  app_desc: string,
-  app_src: string
+  id_app: number;
+  nom_app: string;
+  desc_app: string;
+  src_app: string
 }

@@ -12,38 +12,22 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var application_service_1 = require("../../services/application/application.service");
 var ApplicationComponent = (function () {
-    function ApplicationComponent(fb) {
+    function ApplicationComponent(fb, appService) {
+        var _this = this;
         this.fb = fb;
+        this.appService = appService;
         this.title = 'Mes Applications';
         this.events = [];
+        this.appService.getApplications().subscribe(function (appis) { _this.appis = appis; });
+        console.log(event.type);
         this.showAddAppi = false;
         this.updateShow = true;
         this.idHide = false;
-        this.appis = [
-            {
-                app_id: 1,
-                app_name: "API 1",
-                app_desc: "Desc 1",
-                app_src: "Src 1"
-            },
-            {
-                app_id: 2,
-                app_name: "API 2",
-                app_desc: "Desc 2",
-                app_src: "Src 2"
-            },
-            {
-                app_id: 3,
-                app_name: "API 3",
-                app_desc: "Desc 3",
-                app_src: "Src 3"
-            }
-        ];
         this.myForm = this.fb.group({
-            app_id: [''],
-            app_name: ['', [forms_1.Validators.required, forms_1.Validators.minLength(5)]],
-            app_desc: ["", forms_1.Validators.required],
-            app_src: ["", forms_1.Validators.required]
+            id_app: [''],
+            name_app: ['', [forms_1.Validators.required, forms_1.Validators.minLength(5)]],
+            desc_app: ["", forms_1.Validators.required],
+            src_app: ["", forms_1.Validators.required]
         });
         this.searchAppForm = this.fb.group({
             search: ["", forms_1.Validators.required]
@@ -94,54 +78,36 @@ var ApplicationComponent = (function () {
         }
     };
     ApplicationComponent.prototype.addApi = function (appis, isValid) {
+        var _this = this;
+        var newApplication = {
+            nom_app: appis.nom_app,
+            desc_app: appis.desc_app,
+            src_app: appis.src_app
+        };
         this.submitted = true;
         if (isValid) {
+            this.userService.addUser(newUser)
+                .subscribe(function (apps) {
+                _this.appis.push(apps);
+            });
             this.appis.push(appis);
             this.showAddAppi = false;
         }
-        //console.log(appis, isValid);
     };
     ApplicationComponent.prototype.editApp = function (appi, isValid) {
         var id;
         var appis = this.appis;
-        id = appi.app_id;
+        id = appi.id_app;
         //console.log(appi);
         this.appis.forEach(function (element, index) {
-            if (element.app_id == id) {
+            if (element.id_app == id) {
                 appis[index] = appi;
             }
         });
-        /*for(var i = 0; i < this.appis.length; i++)
-        {
-          //console.log(i);
-          //console.log(this.appis[i].app_id);
-          console.log(this.myForm.value.app_id);
-          /!*if(this.appis[i].app_id == this.myForm.getRawValue().app_id){
-            this.appis.push(this.myForm.getRawValue());
-          }*!/
-          /!*if(users[i].id_app == id)
-          {
-            users.splice(i,1);
-          }*!/
-        }*/
     };
     ApplicationComponent.prototype.deleteApi = function (i) {
         var app = this.appis;
         app.splice(i, 1);
-    };
-    ApplicationComponent.prototype.searchApp = function (appi) {
-        /*var appis = this.appis;
-  
-        appis.forEach(function(element,index){
-  
-          if(element.app_name == appi.search){
-            appis.push(appis[index])
-          }else{
-            appis.splice(index)
-          }
-  
-  
-        });*/
     };
     return ApplicationComponent;
 }());
@@ -153,7 +119,7 @@ ApplicationComponent = __decorate([
         styleUrls: ['application.component.css'],
         providers: [application_service_1.ApplicationService]
     }),
-    __metadata("design:paramtypes", [forms_1.FormBuilder])
+    __metadata("design:paramtypes", [forms_1.FormBuilder, application_service_1.ApplicationService])
 ], ApplicationComponent);
 exports.ApplicationComponent = ApplicationComponent;
 //# sourceMappingURL=application.component.js.map
